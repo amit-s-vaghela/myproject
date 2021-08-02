@@ -1,0 +1,11 @@
+
+git config --global user.name "amitvag"
+git config --global user.email "amiitvaghela@gmail.com"
+
+mkdir git_environment
+
+git clone https://github.com/username/want-some-java.git
+
+git clone https://github.com/amitvag/cd myproject.git
+
+cd myproject
