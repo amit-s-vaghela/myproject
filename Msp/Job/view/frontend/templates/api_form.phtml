@@ -1,0 +1,134 @@
+<h1>API Fuctionality</h1>
+<div>
+<div class="col-md-8">
+    <form name="register-form" method="post" id="register-form" class="form"
+          action=""
+          data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+          data-mage-init='{"validation":{}}'>
+        <fieldset class="fieldset">
+            <legend class="legend"><span><?= $block->escapeHtmlAttr(__('Form Detail')) ?></span></legend>
+            <fieldset class="fieldset row">
+                <div class="fields col-md-6">
+                    <div class="field name required">
+                        <label class="label" for="title"><span><?= $block->
+                            escapeHtmlAttr(__('Feald One')) ?></span></label>
+                        <div class="control">
+                            <input name="field_one" id="field_one" title="field_one" value="" class="input-text" type="text"
+                                   data-validate="{required:true}">
+                        </div>
+                    </div>
+                    <div class="field name required">
+                        <label class="label" for="title"><span><?= $block->
+                            escapeHtmlAttr(__('Feald Two')) ?></span></label>
+                        <div class="control">
+                            <input name="field_two" id="field_two" title="field_two" value="" class="input-text" type="text"
+                                   data-validate="{required:true}">
+                        </div>
+                    </div>
+
+                    <div class="field name required">
+                        <label class="label" for="title"><span><?= $block->escapeHtmlAttr(__('Dynamic Feald value')) ?></span></label>
+                        <div class="control">
+                            <input type="text" id="dynamic_value" name="dynamic_value" title="dynamic_value" class="input-text"
+                            value="" >
+
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </fieldset>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button id="save-button" type="submit" class="action submit primary" title="Save"><span><?= $block->
+                    escapeHtmlAttr(__('Save')) ?></span></button>
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+<a href="javascript:void(0)"
+    id="mc_get_dynamic_value"
+    style="width: 630px; 
+        display: block; 
+        background: #eee; 
+        text-align: center; 
+        margin: 0 auto 30px; 
+        border: 1px solid #eb5202; 
+        color: #eb5202; padding: 4px 0;">Get Dynamic Value
+</a>
+</div>
+<div>
+	<a href="javascript:void(0)"
+    id="api_get_dynamic_value"
+    style="width: 630px; 
+        display: block; 
+        background: #eee; 
+        text-align: center; 
+        margin: 0 auto 30px; 
+        border: 1px solid #eb5202; 
+        color: #eb5202; padding: 4px 0;">API Get Dynamic Value
+</a>
+</div>
+</div>
+<script>
+    require(['jquery'], function($){
+        $('#mc_get_dynamic_value').on('click', function(e){
+            let api_controller_url = '<?= $block->getUrl('customer_register/api/post');?>';
+            let field_one = "field_one";//$("select[name='field_one']").val();
+            let field_two = "field_two";//$("select[name='field_two']").val();
+            $.ajax({
+                url : api_controller_url,
+                type : 'POST',
+                data: {
+                    field_one_v: field_one,
+                    field_two_v: field_two,
+                    //format: 'json',
+                    form_key: window.FORM_KEY
+                },
+                dataType:'json',
+                showLoader: true,
+                success : function(data) {
+                	if (data.status) {
+                        console.log(data.data.name);
+                        console.log(data.data.mobile);
+                    }
+                	// alert(data.output.mobile);
+                 //    //$("input[name='dynamic_value']").val(data.mobile).change();
+                 //    alert("Value Set in Dynamic Feald success full !");
+                 //console.log(data.output.status);
+                },
+                error : function(request,error) {
+                    console.error('Dynamic Value Fetching Error!');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    require(['jquery'], function($){
+        $('#api_get_dynamic_value').on('click', function(e){
+            let api_controller_url = '<?= $block->getUrl('customer_register/api/testapi');?>';
+            let field_one = "field_one";//$("select[name='field_one']").val();
+            let field_two = "field_two";//$("select[name='field_two']").val();
+            $.ajax({
+                url : api_controller_url,
+                type : 'POST',
+                data: {
+                    field_one_v: field_one,
+                    field_two_v: field_two,
+                    format: 'json',
+                    form_key: window.FORM_KEY
+                },
+                dataType:'json',
+                showLoader: true,
+                success : function(data) {
+                    $("input[name='dynamic_value']").val('API Dynamic Value');
+                    console.log(data);
+                },
+                error : function(request,error) {
+                    console.error('Dynamic Value Fetching Error!');
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,260 @@
+<div id="success"></div>
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$productCollectionFactory = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+$collection = $productCollectionFactory->create(); 
+$collection->addAttributeToSelect('*')->getSelect()->orderRand()->limit(10); 
+$collection->setPageSize(1);
+
+
+ 
+// foreach ($collection as $product) {
+//    echo "<pre>"; print_r($product->getData());
+// }
+?>
+<div class="register-form-view" style="float: left; width: 60%;">
+    <div class="col-md-8">
+        <form name="register-form" method="post" id="register-form" class="form"
+              action=""
+              data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+              data-mage-init='{"validation":{}}'>
+            <fieldset class="fieldset">
+                <legend class="legend"><span><?= $block->escapeHtmlAttr(__('Fill Detail')) ?></span></legend>
+                <fieldset class="fieldset row">
+                    <div class="fields col-md-6">
+                        <div class="field name required">
+                            <label class="label" for="title"><span><?= $block->
+                                escapeHtmlAttr(__('Name')) ?></span></label>
+                            <div class="control">
+                                <input name="name" id="name" title="Name" value="" class="input-text" type="text"
+                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+                            </div>
+                        </div>
+
+                        <div class="field name required">
+                            <label class="label" for="title"><span><?= $block->
+                                escapeHtmlAttr(__('Date of Birth ')) ?></span></label>
+                            <div class="control">
+               
+                                <input name="birthdate" id="birthdate" title="Name" value="" class="input-text" type="text"
+                                       data-validate="{required:true}" onchange="getAge(this)">
+                                <input type="hidden" id="age" name="age" value="">
+
+                            </div>
+                        </div>
+
+                        <div class="field name required">
+                            <label class="label" for="title"><span><?= $block->escapeHtmlAttr(__('Telephone')) ?></span></label>
+                            <div class="control">
+                                <input type="text" id="mobile" name="mobile" title="Mobile" class="input-text validate-length maximum-length-10 minimum-length-10 validate-digits">
+
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </fieldset>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button id="save-button" type="submit" class="action submit primary" title="Save"><span><?= $block->
+                        escapeHtmlAttr(__('Save')) ?></span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+require(["jquery", "mage/calendar"], function($){
+        $("#birthdate").datepicker({
+          showMonthAfterYear: false,
+          dateFormat:'mm/dd/yy',
+          changeMonth: true,
+          changeYear: true,
+          yearRange: '1970:2020',
+        })
+});
+</script>
+
+<script type="text/javaScript">
+function getAge(dateString) {
+	var input_date = dateString.value;
+    var today = new Date();
+    var birthDate = new Date(input_date);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())){
+        age--;
+    }
+    if (age < 20) {
+    	 alert('your Age Not Above 20 year');
+    	 return false;
+    } else {
+        $('input[name="age"]').val()="40";
+
+    }
+   
+} 
+</script>
+<script type="text/javaScript">
+require([
+'jquery',
+'Magento_Ui/js/model/messageList',
+],function($){
+    $('#register-form').on('submit', function (e){  
+         e.preventDefault();
+         // e.stopPropagation();
+        var name = $("#name").val();
+        var birthdate = $("#birthdate").val();
+        var mobile = $("#mobile").val();
+        var AjaxUrl = "<?php echo $block->getUrl('customer/apply/save') ?>";
+        setTimeout(function(){
+            $.ajax({
+                context: '#ajaxresponse',
+                url: AjaxUrl,
+                type: "POST",
+                data: {
+                    name:name,
+                    birthdate:birthdate,
+                    mobile:mobile
+                },
+            }).done(function (data) {
+                //alert(data.output);
+                $('#ajaxresponse').html(data.output);
+                $('#success').html('<div class="message message-success success"><strong>Submited successfully</strong></div>');
+                return true;
+            });
+        },2000); 
+        
+    });
+});
+
+</script>
+<script>
+require(['jquery'],function($){
+    jQuery(document).ready(function() {
+        $.ajax({ url: "<?php echo $block->getUrl('customer/index/view') ?>",
+            context: document.body,
+            success: function(data){
+               $('#ajaxresponse').html(data.output);
+               return true;
+            }
+        });
+    });
+});
+</script>
+<div class="product-show" style="float: right;">
+<?php
+use Magento\Framework\App\Action\Action;
+?>
+<?php
+$block= $block->getLayout()->createBlock('Magento\Catalog\Block\Product\ListProduct');
+?>
+<?php if ($exist = ($collection && $collection->getSize())):?>
+<?php
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $title = $block->getTitle() ? __($block->getTitle()) : '';
+    $products = $collection;
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+    $showWishlist = false;
+    $showCompare = false;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
+    $showDescription = false;
+?>
+    <div class="block widget block-products-list <?php /* @escapeNotVerified */ echo $mode; ?>">
+        <?php if ($title):?>
+        <div class="block-title">
+            <strong><?php /* @escapeNotVerified */ echo $title; ?></strong>
+        </div>
+        <?php endif ?>
+        <div class="block-content">
+            <?php /* @escapeNotVerified */ echo '<!-- ' . $image . '-->' ?>
+            <div class="products-<?php /* @escapeNotVerified */ echo $mode; ?> <?php /* @escapeNotVerified */ echo $mode; ?>">
+                <ol class="product-items <?php /* @escapeNotVerified */ echo $type; ?>">
+                    <?php $iterator = 1; ?>
+                    <?php /** @var \Magento\Catalog\Model\Product $_product */ ?>
+                    <?php foreach ($products as $_product): ?>
+                        <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+                        <div class="product-item-info" data-container="product-grid">
+                            <?php
+                            $productImage = $block->getImage($_product, $image);
+                            ?>
+                            <?php // Product Image ?>
+                            <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                                <?php echo $productImage->toHtml(); ?>
+                            </a>
+                            <div class="product details product-item-details">
+                                <?php
+                                $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                                ?>
+                                <strong class="product name product-item-name">
+                                    <a class="product-item-link"
+                                       href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                                        <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                                    </a>
+                                </strong>
+                                <?php echo $block->getReviewsSummaryHtml($_product, $templateType); ?>
+                                <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+                                <?php echo $block->getProductDetailsHtml($_product); ?>
+
+                                <div class="product-item-inner">
+                                    <div class="product actions product-item-actions">
+                                        <div class="actions-primary">
+                                            <?php if ($_product->isSaleable()): ?>
+                                                <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                                <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+                                                    <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+                                                    <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                                                    <?php echo $block->getBlockHtml('formkey')?>
+                                                    <button type="submit"
+                                                            title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>"
+                                                            class="action tocart primary">
+                                                        <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                    </button>
+                                                    <div class="view-button">
+                                                        <a class="primary action" href="<?php echo $_product->getProductUrl() ?>"><?= __('View') ?></a>
+                                                    </div>
+                                                </form>
+                                            <?php else: ?>
+                                                <?php if ($_product->getIsSalable()): ?>
+                                                    <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
+                                                <?php else: ?>
+                                                    <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php echo($iterator == count($products)+1) ? '</li>' : '' ?>
+                    <?php endforeach ?>
+                </ol>
+            </div>
+            <?php echo $block->getPagerHtml() ?>
+        </div>
+    </div>
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {}
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif;?>
+</div>
+<div class="show-register-details">
+    <div id="ajaxresponse"></div>
+</div>
+<style type="text/css">
+   .page-layout-1column .block.widget .products-grid .product-item {
+    width: 70%;
+}
+</style>

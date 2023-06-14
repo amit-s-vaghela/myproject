@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+   <!--Use router 'standard' for frontend route-->
+   <router id="standard">
+        <!--Define a custom route with id and frontName-->
+        <route frontName="customer_register" id="customer_register">
+            <!--The module which this route match to-->
+            <module name="Msp_Job"/>
+        </route>
+       <route id="customer">
+           <module name="Msp_Job" before="Magento_Customer" />
+       </route>
+   </router>
+</config>
