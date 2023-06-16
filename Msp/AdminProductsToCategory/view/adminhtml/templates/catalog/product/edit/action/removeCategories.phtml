@@ -1,0 +1,45 @@
+<?php
+$getCategoriesTree = $block->getSerializeCategoriesOption();
+?> 
+
+<?php 
+    // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+    // $categories = $objectManager->create(
+    //             'Magento\Catalog\Ui\Component\Product\Form\Categories\Options'
+    //         )->toOptionArray();
+    // $getCategoriesTree =json_encode($categories);
+?>
+<fieldset class="fieldset">
+    <div class="field required">
+        <label class="label"><?php echo __('Remove Select Category') ?>:</label>
+       <!--  <input id="update_categories" name="update_categories" type="hidden" value="" /> -->
+        <div id="customCategoryRemove"data-bind="scope: 'customCategoryRemove'">
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        </div>
+        <script type="text/x-magento-init">
+            {
+                "*": {
+                    "Magento_Ui/js/core/app": {
+                        "components": {
+                            "customCategoryRemove": {
+                                "component": "Magento_Ui/js/form/element/ui-select",
+                                "template" : "Msp_AdminProductsToCategory/ui-select-remove-feald",
+                                "filterOptions": true,
+                                "levelsVisibility": "1",
+                                "multiple": true,
+                                "showCheckbox": true,
+                                "options": <?php echo $getCategoriesTree ?>
+                            }
+                        }
+                    }
+                }
+            }
+        </script>
+    </div>
+</fieldset>
+
+
+
+
+

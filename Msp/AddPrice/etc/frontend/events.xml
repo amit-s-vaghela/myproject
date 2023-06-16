@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="checkout_cart_product_add_after">
+		<observer name="Msp_Addtocart" instance="Msp\AddPrice\Observer\PricecalculationsAfterAddtoCart" />
+	</event>
+	<event name="checkout_onepage_controller_success_action">
+        <observer name="place_order_after" instance="Msp\AddPrice\Observer\Orderplaceafter"/>
+    </event>
+    <event name="controller_action_postdispatch_contact_index_post">
+    	<observer name="module_custom_save_customer" instance="Msp\AddPrice\Observer\SaveCustomer" />
+    </event>
+</config>

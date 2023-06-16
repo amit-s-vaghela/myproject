@@ -1,0 +1,73 @@
+<?php
+namespace Msp\CustomerPic\Setup;
+
+use Magento\Eav\Setup\EavSetupFactory;
+use Magento\Customer\Model\Customer;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Framework\Setup\UpgradeDataInterface;
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Customer\Setup\CustomerSetupFactory;
+ 
+class UpgradeData implements UpgradeDataInterface
+{
+    private $eavSetupFactory;
+    private $customerSetupFactory;
+ 
+    public function __construct(
+        EavSetupFactory $eavSetupFactory,
+        CustomerSetupFactory $customerSetupFactory
+    )
+    {
+        $this->eavSetupFactory = $eavSetupFactory;
+        $this->customerSetupFactory = $customerSetupFactory;
+    }
+ 
+    public function upgrade(
+        ModuleDataSetupInterface $setup,
+        ModuleContextInterface $context
+    ) {
+        $setup->startSetup();
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
+        if (version_compare($context->getVersion(), '1.0.2') < 0) {
+        
+                $attributeCode = 'customer_image';
+                $customerSetup->addAttribute(
+                    \Magento\Customer\Model\Customer::ENTITY,
+                    $attributeCode,
+                    [
+                        'type' => 'varchar',
+                        'label' => 'Customer Profile Picture',
+                        'input' => 'file',
+                        'source' => '',
+                        'required' => false,
+                        'visible' => true,
+                        'position' => 200,
+                        'system' => false,
+                        'backend' => '',
+                        'user_defined' => true,
+                        'sort_order' => 10,
+                        'is_used_in_grid' => true,
+                        'is_visible_in_grid' => true,
+                        'is_html_allowed_on_front' => true,
+                        'visible_on_front' => true
+                    ]
+                );
+         
+                // used this attribute in the following forms
+                $attribute = $customerSetup->getEavConfig()
+                    ->getAttribute(\Magento\Customer\Model\Customer::ENTITY, $attributeCode)
+                    ->addData(
+                        ['used_in_forms' => [
+                            'adminhtml_customer',
+                            // 'adminhtml_checkout',
+                            // 'customer_account_create',
+                            'customer_account_edit'
+                        ]
+                        ]);
+         
+                $attribute->save();
+        }
+        $setup->endSetup();
+    }
+}

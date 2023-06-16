@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Msp_AddPrice::manager" title="Customer Grid" module="Msp_AddPrice" sortOrder="10" resource="Msp_AddPrice::manager" />
+        <add id="Msp_AddPrice::add_row" title="Customer List" module="Msp_AddPrice" sortOrder="20" parent="Msp_AddPrice::manager" action="customergrid/grid/index" resource="Msp_AddPrice::add_row"/>
+    </menu>
+</config>
+
+

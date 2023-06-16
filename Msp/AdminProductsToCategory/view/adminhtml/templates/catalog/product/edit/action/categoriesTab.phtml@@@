@@ -1,0 +1,46 @@
+<div class="fieldset-wrapper" id="add-products-to-category-wrapper">
+    <fieldset class="fieldset" id="add-products-to-category-wrapper-group-fields">
+        <legend class="legend">
+            <span><?=  __('Add Product To Categories') ?></span>
+        </legend>
+        <br> 
+    </fieldset>
+</div> 
+
+<?php 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+    $categories = $objectManager->create(
+                'Magento\Catalog\Ui\Component\Product\Form\Categories\Options'
+            )->toOptionArray();
+    $getCategoriesTree =json_encode($categories);
+?>
+<form action="<?php echo $this->getUrl('multiselect/manage/save', ['_secure' => $this->getRequest()->isSecure()]) ?>" enctype="multipart/form-data" method="post"  data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset">
+        <div class="field required">
+            <label class="label"><?php echo __('Select Category') ?>:</label>
+            <div data-bind="scope: 'customCategory'">
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            </div>
+            <script type="text/x-magento-init">
+                {
+                    "*": {
+                        "Magento_Ui/js/core/app": {
+                            "components": {
+                                "customCategory": {
+                                    "component": "Magento_Ui/js/form/element/ui-select",
+                                    "template" : "Msp_AdminProductsToCategory/ui-select",
+                                    "filterOptions": true,
+                                    "levelsVisibility": "1",
+                                    "multiple": true,
+                                    "showCheckbox": true,
+                                    "options": <?php echo $getCategoriesTree ?>
+                                }
+                            }
+                        }
+                    }
+                }
+            </script>
+        </div>
+    </fieldset>
+</form>

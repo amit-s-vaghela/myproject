@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<body>
+     <referenceBlock name="header.links">
+       <block class="Msp\CustomerPic\Block\Link" name="customer-profile" after="-"  ifconfig="customerpic/general/is_enable">
+         <arguments>
+           <argument name="label" xsi:type="string" translate="true">profile Pic</argument>
+           <argument name="path" xsi:type="string">test/test</argument>
+         </arguments>
+       </block>
+       <!-- <block class="Msp\CustomerPic\Block\Customer\Account\ProfilePic" name="customer-profile" template="Msp_CustomerPic::customer/home/use/logo/customer_pic.phtml" cacheable="false" /> -->
+     </referenceBlock>
+</body>
+</page>
+
+

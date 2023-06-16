@@ -1,0 +1,68 @@
+<?php
+$getCategoriesTree = $block->getSerializeCategoriesOption();
+
+?> 
+<?php 
+    // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+    // $categories = $objectManager->create(
+    //             'Magento\Catalog\Ui\Component\Product\Form\Categories\Options'
+    //         )->toOptionArray();
+    //$getCategoriesTree =json_encode($categories);
+?>
+<fieldset class="fieldset">
+    <div class="field required">
+        <label class="label"><?php echo __('Added Select Category') ?>:</label>
+       <!--  <input id="update_categories" name="update_categories" type="hidden" value="" /> -->
+        <div id="customCategory"data-bind="scope: 'customCategory'">
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        </div>
+        <script type="text/x-magento-init">
+            {
+                "*": {
+                    "Magento_Ui/js/core/app": {
+                        "components": {
+                            "customCategory": {
+                                "component": "Magento_Ui/js/form/element/ui-select",
+                                "template" : "Msp_AdminProductsToCategory/ui-select",
+                                "filterOptions": true,
+                                "levelsVisibility": "1",
+                                "multiple": true,
+                                "showCheckbox": true,
+                                "options": <?php echo $getCategoriesTree ?>
+                            }
+                        }
+                    }
+                }
+            }
+        </script>
+    </div>
+</fieldset>
+
+<!-- <script type="text/javascript">
+    require(['jquery'], function($){
+    $(document).ready(function(){
+       
+        $(document).on('click', ".action-default", function() {
+            
+            var checkbox_ids = [];
+            $(".hidden_checkbox_ids").each(function(){
+                checkbox_ids.push($(this).val());
+            });
+            var checkbox_ids = checkbox_ids.join(", ");
+            alert("Selected are: " + checkbox_ids);
+            if(checkbox_ids) {
+                $("#update_categories").val(checkbox_ids); 
+                console.log("Add Categories "+checkbox_ids);
+            }
+            
+        });
+    
+    }); 
+});
+</script> -->
+
+
+
+
+

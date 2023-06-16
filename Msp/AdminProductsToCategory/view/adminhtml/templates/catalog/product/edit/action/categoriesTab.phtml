@@ -1,0 +1,25 @@
+<div class="fieldset-wrapper" id="add-products-to-category-wrapper">
+    <fieldset class="fieldset" id="add-products-to-category-wrapper-group-fields">
+        <legend class="legend">
+            <span><?=  __('Selected Categories Add From Products') ?></span>
+        </legend>
+        <br>
+        <div class="store-scope">
+            <div class="store-tree" id="add-products-to-category-content">
+                <?= $block->getChildHtml('tab_categories_content'); ?>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<div class="fieldset-remove-category">
+    <fieldset class="fieldset" id="remove-products-from-category-wrapper-group-fields">
+        <legend class="legend">
+            <span><?=  __('Selected Categories Remove From Products ') ?></span>
+        </legend>
+        <br>
+        <div class="category-remove-tree-content">
+            <?= $block->getChildHtml('tab_categories_remove_content'); ?>
+        </div>
+    </fieldset>
+</div>

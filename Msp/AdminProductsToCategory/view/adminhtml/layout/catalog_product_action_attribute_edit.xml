@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<page>
+    <body>
+        <referenceBlock  name="attributes_tabs">
+            <block class="Msp\AdminProductsToCategory\Block\Adminhtml\Product\Edit\Action\Attribute\Tab\CategoriesTab"
+               name="tab_custome_categories"
+               template="Msp_AdminProductsToCategory::catalog/product/edit/action/categoriesTab.phtml"
+               >
+            <block class="Msp\AdminProductsToCategory\Block\Adminhtml\Product\Edit\Action\Attribute\Tab\CategoryList"
+                   name="tab_categories_content"
+                   template="Msp_AdminProductsToCategory::catalog/product/edit/action/addCategories.phtml"
+            />
+
+             <block class="Msp\AdminProductsToCategory\Block\Adminhtml\Product\Edit\Action\Attribute\Tab\CategoryList"
+                   name="tab_categories_remove_content"
+                   template="Msp_AdminProductsToCategory::catalog/product/edit/action/removeCategories.phtml"
+               />
+
+            </block>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">update_categories</argument>
+                <argument name="block" xsi:type="string">tab_custome_categories</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

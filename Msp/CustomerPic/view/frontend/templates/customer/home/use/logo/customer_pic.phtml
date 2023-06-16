@@ -1,0 +1,12 @@
+<?php
+$profile_pic = $this->getProfilePic();
+?>
+<?php if(!empty($profile_pic)):?>
+	<div class="customer-profile-pic">
+			<img src='<?php echo $this->getProfilePic(); ?>' alt="default-pic" width="30" height="25">
+	</div>
+<?php else: ?>
+	<div class="customer-profile-pic">
+		<img src='<?php echo $this->getViewFileUrl('Msp_CustomerPic::images/default.jpg'); ?>' alt="default-pic" width="30" height="25">
+	</div>
+<?php endif; ?>
