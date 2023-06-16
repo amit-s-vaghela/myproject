@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magento_Discount::banner" title="Banner" module="Magento_Discount" parent="Magento_Backend::content_elements" sortOrder="10" resource="Magento_Discount::banner" action="magento_discount/Banner/index"/>
+    </menu>
+</config>

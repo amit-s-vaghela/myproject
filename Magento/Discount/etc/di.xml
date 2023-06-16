@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="magento_discount_banner_listing_data_source" xsi:type="string">
+                    MagentoBannerCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="MagentoBannerCollection"
+        type="Magento\Discount\Ui\DataProvider\Banner\Listing\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">banners</argument>
+            <argument name="resourceModel" xsi:type="string">
+                Magento\Discount\Model\ResourceModel\Banner</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Discount\BannerImageUpload"
+        type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">discount/tmp/banner</argument>
+            <argument name="basePath" xsi:type="string">discount/banner</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+            <argument name="allowedMimeTypes" xsi:type="array">
+                <item name="jpg" xsi:type="string">image/jpg</item>
+                <item name="jpeg" xsi:type="string">image/jpeg</item>
+                <item name="png" xsi:type="string">image/png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Discount\Controller\Adminhtml\Banner\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magento\Discount\BannerImageUpload</argument>
+        </arguments>
+    </type>
+</config>
