@@ -26,7 +26,7 @@
                     <td data-th="Email" class="col email"><?php echo $data->getEmail(); ?></td>
                     <td data-th="Image" class="col image">
                         <?php if($data->getImage()): ?>
-                            <img width="70" height="70" src="<?php echo $block->getBaseUrl().'media/magelearn/customform/'.$data->getImage(); ?>">
+                            <img width="70" height="70" src="<?php echo $block->getBaseUrl().'/media/'.$data->getImage(); ?>">
                         <?php else: ?>
                             <p>No Image</p>
                         <?php endif; ?>

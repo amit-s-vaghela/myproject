@@ -1,5 +1,6 @@
 <?php
-namespace Magelearn\Customform\Controller\Index; 
+
+namespace Magelearn\Customform\Controller\Index;
 
 use Magento\Framework\App\Action\Context;
 use Magelearn\Customform\Model\CustomformFactory;
@@ -37,7 +38,7 @@ class Save extends \Magento\Framework\App\Action\Action
             return $this->resultRedirectFactory->create()->setPath('*/*/');
         }
         //$data = $this->getRequest()->getParams();
-        //$data = $this->validatedParams();
+        $data = $this->validatedParams();
         if(isset($_FILES['image']['name']) && $_FILES['image']['name'] != '') {
             try{
                 $uploaderFactory = $this->uploaderFactory->create(['fileId' => 'image']);
@@ -70,5 +71,29 @@ class Save extends \Magento\Framework\App\Action\Action
         $resultRedirect = $this->resultRedirectFactory->create();
         $resultRedirect->setPath('customform');
         return $resultRedirect;
-    } 
+    }
+/**
+     * @return array
+     * @throws \Exception
+     */
+    private function validatedParams()
+    {
+        $request = $this->getRequest();
+        if (trim($request->getParam('first_name')) === '') {
+            throw new LocalizedException(__('Enter the First Name and try again.'));
+        }
+		if (trim($request->getParam('last_name')) === '') {
+            throw new LocalizedException(__('Enter the Last Name and try again.'));
+        }
+		if (false === \strpos($request->getParam('email'), '@')) {
+            throw new LocalizedException(__('The email address is invalid. Verify the email address and try again.'));
+        }
+		if (trim($request->getParam('phone')) === '') {
+            throw new LocalizedException(__('Enter the Phone Number and try again.'));
+        }
+		if (trim($request->getParam('message')) === '') {
+            throw new LocalizedException(__('Enter your message and try again.'));
+        }
+        return $request->getParams();
+    }
 }

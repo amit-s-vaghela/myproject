@@ -72,6 +72,7 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
             $itemData['image'] = array(
                 array(
                     'name'  =>  $imageName,
+                    'type'   =>  'image',
                     'url'   =>  $this->storeManager
                 ->getStore()
                 ->getBaseUrl(
@@ -93,6 +94,26 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         
         return $this->loadedData;
     }
+
+//    public function getData()
+//    {
+//         if (isset($this->_loadedData)) {
+//             return $this->_loadedData;
+//             }
+//         $items = $this->collection->getItems();
+//         if($items) {
+//             foreach ($items as $item) {
+//                 $this->_loadedData[$item->getId()] = $item->getData();
+//                 $i['image'][0]['name'] = 'test'; //TODO
+//                 $i['image'][0]['url'] =" https://asmi.docker/media/magelearn/customform/1/0/107_home_theater_systems_e5dfd86da21eee5a93e2c0856cd6baa8_1.jpg";
+//                 $i['image'][0]['type'] = 'image';
+//                 $allData = $this->_loadedData;
+//                 $this->_loadedData[$item->getId()] = array_merge($allData[$item->getId()], $i);
+//             }
+//             return $this->_loadedData;
+//         }
+//         return;
+//     }
 	
 }
 

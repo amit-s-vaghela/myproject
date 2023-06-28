@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- *
- * Created By: MageDelight Pvt. Ltd.
- */
--->
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
    <argument name="data" xsi:type="array">
       <item name="js_config" xsi:type="array">
@@ -46,6 +38,7 @@
       </argument>
    </dataSource>
    <fieldset name="general_information">
+        
       <argument name="data" xsi:type="array">
          <item name="config" xsi:type="array">
             <item name="collapsible" xsi:type="boolean">false</item>
@@ -53,6 +46,28 @@
             <item name="sortOrder" xsi:type="number">20</item>
          </item>
       </argument>
+      <field name="title">
+         <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+               <item name="dataType" xsi:type="string">text</item>
+               <item name="label" xsi:type="string" translate="true">Title</item>
+               <item name="formElement" xsi:type="string">input</item>
+               <item name="source" xsi:type="string">title</item>
+               <item name="dataScope" xsi:type="string">title</item>
+            </item>
+         </argument>
+      </field>
+      <field name="name">
+         <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+               <item name="dataType" xsi:type="string">text</item>
+               <item name="label" xsi:type="string" translate="true">Name</item>
+               <item name="formElement" xsi:type="string">input</item>
+               <item name="source" xsi:type="string">name</item>
+               <item name="dataScope" xsi:type="string">name</item>
+            </item>
+         </argument>
+      </field>
       <field name="status">
          <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
@@ -60,7 +75,7 @@
                <item name="dataType" xsi:type="string">boolean</item>
                <item name="formElement" xsi:type="string">checkbox</item>
                <item name="prefer" xsi:type="string">toggle</item>
-               <item name="label" xsi:type="string" translate="true">Default Value</item>
+               <item name="label" xsi:type="string" translate="true">Status</item>
                <item name="valueMap" xsi:type="array">
                   <item name="true" xsi:type="number">1</item>
                   <item name="false" xsi:type="number">0</item>
@@ -70,28 +85,6 @@
                </item>
                <item name="default" xsi:type="number">1</item>
                <item name="dataScope" xsi:type="string">status</item>
-            </item>
-         </argument>
-      </field>
-      <field name="blog_title">
-         <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-               <item name="dataType" xsi:type="string">text</item>
-               <item name="label" xsi:type="string" translate="true">Blog Title</item>
-               <item name="formElement" xsi:type="string">input</item>
-               <item name="source" xsi:type="string">blog_title</item>
-               <item name="dataScope" xsi:type="string">blog_title</item>
-            </item>
-         </argument>
-      </field>
-      <field name="blog_description">
-         <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-               <item name="dataType" xsi:type="string">text</item>
-               <item name="label" xsi:type="string" translate="true">Blog Description</item>
-               <item name="formElement" xsi:type="string">input</item>
-               <item name="source" xsi:type="string">blog_description</item>
-               <item name="dataScope" xsi:type="string">blog_description</item>
             </item>
          </argument>
       </field>

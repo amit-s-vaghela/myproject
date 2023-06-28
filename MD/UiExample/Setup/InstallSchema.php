@@ -30,7 +30,7 @@ class InstallSchema implements InstallSchemaInterface
             $table = $installer->getConnection()->newTable(
                 $installer->getTable('md_blog')
             )->addColumn(
-                'id',
+                'blog_id',
                 Table::TYPE_INTEGER,
                 null,
                 [

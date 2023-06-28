@@ -44,11 +44,13 @@ class Thumbnail extends \Magento\Ui\Component\Listing\Columns\Column
             $path = $this->storeManager->getStore()->getBaseUrl(
                         \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
                     );
+               
             foreach ($dataSource['data']['items'] as & $item) {
+                $imagePath =  $path .'magelearn/customform'. $item['image']; 
                 if ($item['image']) {
-                    $item[$fieldName . '_src'] = $path.'magelearn/customform'.$item['image'];
+                    $item[$fieldName . '_src'] = $imagePath;
                     $item[$fieldName . '_alt'] = $item['first_name'].' '.$item['last_name'];
-                    $item[$fieldName . '_orig_src'] = $path.'magelearn/customform'.$item['image'];
+                    $item[$fieldName . '_orig_src'] = $imagePath;
                 }else{
                     // please place your placeholder image at pub/media/magelearn/customform/placeholder/placeholder.jpg
                     $item[$fieldName . '_src'] = $path.'magelearn/customform/placeholder/placeholder.jpg';
