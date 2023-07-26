@@ -1,0 +1,113 @@
+<?php
+$data = $block->getData();
+$data = $data['data'];
+//echo"<pre> test";print_r($data);//exit;
+
+$csv_file = $data["csv_file"]; 
+$pdf_file = $data["pdf_file"];
+$brand = $data["brand"];
+$getProcess = $block->getProcessData($data);
+ //echo"<pre> test";print_r($getProcess);//exit;
+ $getProcessData = $block->getBarcodeData($data);
+?>
+
+<html>
+<head>
+<style>
+.tableclass {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tdth {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+.button {
+  background-color: grey; /* Green */
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  color: white;
+}
+.button-size {
+  width: 100%;
+  background-color: grey; /* Green */
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  color: white;
+}
+
+.atag-button {
+display: block;
+width: 115px;
+height: 25px;
+background: #4E9CAF;
+padding: 10px;
+text-align: center;
+border-radius: 5px;
+color: white;
+font-weight: bold;
+}
+</style>
+</head>
+<body>
+<h2>BARCODE REPORT</h2>
+<table class="tableclass">
+<thead>
+    <tr>
+      <th class="tdth">SKU</th>
+      <th class="tdth">PHYSICAL STOCK</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php if ($getProcessData): ?>
+  <?php foreach ($getProcessData as $key => $item): ?>
+        <tr>
+          <td class="tdth"><?php echo $key; ?></td>
+          <td class="tdth"><?php echo $item; ?></td>
+        </tr>
+  <?php endforeach; ?>
+  <?php endif; ?>
+  <?php $download_csv = $block->getUrl('inventoryaudit/grid/export',['fileName'=> $csv_file]); ?>
+       <tr>
+          <td class="tdth"><a href="<?php echo $download_csv ?>" class="button" id="downloadcsv">Download CSV</a></td>
+          <td class="tdth"><a href="<?php echo $this->getUrl('inventoryaudit/grid/pdf',['fileName'=> $pdf_file]); ?>" class="button">Download PDF</a></td>
+        </tr>
+</tbody>
+</table>
+<?php
+    // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    // $formKey = $objectManager->get('Magento\Framework\Data\Form\FormKey');
+?>
+<div class="form-button">
+  <form name="form_value_submit" method="POST" id="form_value_submit" action="<?php echo $block->getUrl('inventoryaudit/grid/save') ?>" enctype="multipart/form-data">
+        <input type="hidden" name="form_key"  value="<?php echo $block->getFormkey();?>">
+        <input type="hidden" name="brand"     value="<?php echo $brand;?>">
+        <input type="hidden" name="csv"       value="<?php echo $csv_file;?>">
+        <input type="hidden" name="pdf"       value="<?php echo $pdf_file;?>">
+        <input type="submit" id="calculateTotalSubmit"  name="submit" class="button-size" value="Complete Option">
+    </form>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+      <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js" src_type="url"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Devstree\InventoryAudit\Block\Adminhtml\Grid\DisplayInfo" name="display_info" template="Devstree_InventoryAudit::inventory_audit.phtml" />
+        </referenceContainer>
+    </body>
+</page>
+<!-- <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+           <block class="Devstree\InventoryAudit\Block\Adminhtml\Grid\AddRow" name="add_row" />
+        </referenceContainer>
+    </body>
+</page> -->
+

@@ -1,0 +1,81 @@
+<?php
+$data = $block->getData();
+$data = $data['data'];
+$csv_file = $data["csv_file"]; 
+$brand = $data["brand"];
+$getProcess = $block->getProcessData($data);
+//echo"<pre> test";print_r($getProcess);exit;
+$getProcessData = $block->getBarcodeData($data);
+?>
+
+<html>
+<head>
+<style>
+table { width: 100%; }
+.tableclass {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tdth {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.even {
+    background-color: #dddddd;
+  }
+</style>
+</head>
+<body>
+<h2>BARCODE REPORT</h2>
+<table class="tableclass">
+<thead>
+    <tr>
+      <th class="tdth">SKU</th>
+      <th class="tdth">PHYSICAL STOCK</th>
+      <th class="tdth">ATTRIBUTE SET CODE</th>
+      <th class="tdth">NAME</th>
+      <th class="tdth">QTY</th>
+      <th class="tdth">SALABLE QTY</th>
+      <th class="tdth">COST</th>
+      <th class="tdth">GST RATE</th>
+      <th class="tdth">DIFFERENCE</th>
+      <th class="tdth">VALUE</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php $i=0; foreach ($getProcess as $key => $item): $i++;?>
+        <tr class="<?php echo ($i%2) ? 'even' : 'odd' ?>">
+          <td class="tdth"><?php echo $item['sku']; ?></td>
+          <td class="tdth"><?php echo $item['phy_qty']; ?></td>
+          <td class="tdth"><?php echo $item['attribute_set_id']; ?></td>
+          <td class="tdth"><?php echo $item['name']; ?></td>
+          <td class="tdth"><?php echo $item['qty']; ?></td>
+          <td class="tdth"><?php echo $item['salable_qty']; ?></td>
+          <td class="tdth"><?php echo $item['price']; ?></td>
+          <td class="tdth"><?php echo $item['gst']; ?></td>
+          <td class="tdth"><?php echo $item['difference']; ?></td>
+          <td class="tdth"><?php echo $item['value']; ?></td>
+        </tr>
+  <?php endforeach; ?>
+  <?php $download_csv = $block->getUrl('inventoryaudit/grid/export',['fileName'=> $csv_file]); ?>
+       <!-- <tr>
+          <td class="tdth"><a href="<?php //echo $download_csv ?>" title="CSV" class="button" id="downloadcsv">Download CSV</a></td>
+          <td class="tdth"><a href="<?php //echo $this->getUrl('inventoryaudit/grid/createpdf'); ?>" title="PDF" class="button">Download PDF</a></td>
+        </tr> -->
+</tbody>
+</table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

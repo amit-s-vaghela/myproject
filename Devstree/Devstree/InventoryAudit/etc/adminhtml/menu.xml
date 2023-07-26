@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Devstree_InventoryAudit::inventory_menu" 
+        title="Inventory Audit" 
+        module="Devstree_InventoryAudit" 
+        sortOrder="10" 
+        resource="Devstree_InventoryAudit::manager" 
+        dependsOnConfig="inventory_audit/general/enable"/>
+        <add id="Devstree_InventoryAudit::add_row" 
+        title="Inventory Form" 
+        module="Devstree_InventoryAudit" 
+        sortOrder="20" 
+        parent="Devstree_InventoryAudit::inventory_menu" 
+        action="inventoryaudit/grid/addrow" 
+        resource="Devstree_InventoryAudit::add_row" 
+        dependsOnConfig="inventory_audit/general/enable"/>
+        <add id="Devstree_InventoryAudit::grid_list" 
+        title="Inventory Report" 
+        module="Devstree_InventoryAudit" 
+        sortOrder="30" 
+        parent="Devstree_InventoryAudit::inventory_menu" 
+        action="inventoryaudit/grid/index" 
+        resource="Devstree_InventoryAudit::grid_list" 
+        dependsOnConfig="inventory_audit/general/enable"/>
+
+    </menu>
+</config>

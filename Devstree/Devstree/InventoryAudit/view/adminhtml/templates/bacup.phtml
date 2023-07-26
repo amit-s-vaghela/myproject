@@ -1,0 +1,218 @@
+<html lang="en">
+<head>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script> -->
+
+</head>
+<body>
+<input type="button" id="btn" value="Start/Stop the scanner" />
+Most Recently <h1 id="output"></h1>
+<div id="camera-container">
+  <div id="viewport"></div>
+  <div id="canvas"></div>
+</div>
+</body>
+</html>
+
+
+<script type="text/javascript">
+    // ./mutagen.sh
+    // require([ 'jquery', 'jquery/ui'], function($){
+    //     $(document).on("click","#product_scan", function() {
+    //         alert("Test!");
+    //     });
+    // });
+
+    require(['jquery', 'jquery/ui'], function($) {
+    $(document).ready(function() {
+        var _scannerIsRunning = false;
+
+        function startScanner() {
+            console.log("startScanner");
+            Quagga.init(
+                {
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: document.querySelector("#viewport")
+                },
+                decoder: {
+                    //readers: ["code_128_reader"]
+                    readers: [
+                                    "code_128_reader",
+                                    "ean_reader",
+                                    "ean_8_reader",
+                                    "code_39_reader",
+                                    "code_39_vin_reader",
+                                    "codabar_reader",
+                                    "upc_reader",
+                                    "upc_e_reader",
+                                    "i2of5_reader"
+                                ],
+                }
+                },
+                function (err) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                console.log("Initialization finished. Ready to start");
+                Quagga.start();
+                // Set flag to is running
+                _scannerIsRunning = true;
+                }
+            );
+
+            Quagga.onDetected(function (result) {
+                var code = result.codeResult.code;
+                document.getElementById("output").innerHTML = result.codeResult.code;
+                $("#output").val(code);
+                $('#greeting').html(code);
+
+                $("#popup-modal").modal("openModal");
+
+            });
+        }
+
+        // Start/stop scanner
+        document.getElementById("btn").addEventListener("click", function () {
+
+        if (_scannerIsRunning) {
+            _scannerIsRunning = false;
+            $("#camera-container").hide();
+            Quagga.stop();
+        } else {
+            $("#camera-container").show();
+            startScanner();
+        }
+        }, false);
+
+    });
+});
+</script>
+
+<div id="popup-modal" style="display:none;">
+    <h1 id="greeting"></h1>
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+            'mage/cookies'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Do you want to accept this ?',
+                buttons: [{
+                    text: $.mage.__('Finish'),
+                    class: 'btn_finish',
+                    click: function () {
+                        this.closeModal();
+                        $("#btn").click()
+                        
+                        listBarcode();
+                    }
+                },
+                {
+                    text: $.mage.__('Yes'),
+                    class: 'btn_add',
+                    click: function () {
+                        //this.closeModal();
+                        //alert("btn_add moda!");
+                        
+                    }
+                },
+                {
+                    text: $.mage.__('No'),
+                    class: 'btn_noadd',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+             var popup = modal(options, $('#popup-modal'));
+            // $("#click-me").on('click',function(){ 
+            //     $("#popup-modal").modal("openModal");
+            // });
+
+        }
+    );
+</script>
+
+<script type="text/javascript">
+    require([ 'jquery', 'jquery/ui'], function($){
+        $(document).on("click",".btn_add", function() {
+            var inputString = $("#output").val();
+            if(inputString == " "){
+                return;
+            }
+            alert("btn_add     "+inputString);
+            AddBarcode(inputString);
+            $('.action-close').trigger('click');
+            return;
+
+        });
+    });
+
+</script>
+<!-- <script type="text/javascript">
+function setCountry(barcode_value) {
+    require(['jquery','mage/cookies'], function ($) {    
+        $(document).ready(function() {
+
+            $.cookie('barcode', barcode_value, '/'); // set cookie value
+            var barcode = $.cookie('barcode'); // get cookie value
+            console.log("SESSION DATA "+barcode);
+            });
+        });
+}
+</script> -->
+
+<script type="text/javascript">
+var myBarcodeObject = [];
+
+// function AddBarcode(inputString) {
+//     myBarcodeObject.push(inputString);
+//   console.log("ADD ARRAY "+inputString);
+// }
+
+// function listBarcode() {
+//   console.log(myBarcodeObject);
+//   var count = myBarcodeObject.length;
+//   console.log("COUNT "+count);
+//   myBarcodeObject = [];
+//   console.log("Remove  "+myBarcodeObject);
+// }
+</script>
+
+<script type="text/javascript">
+function AddBarcode(barcode_value) {
+    require(['jquery'], function ($) {    
+        $(document).ready(function() {
+            myBarcodeObject.push(barcode_value);
+            console.log("ADD ARRAY "+barcode_value);
+        });
+    });
+}
+</script>
+<script type="text/javascript">
+function listBarcode(barcode_value) {
+    require(['jquery'], function ($) {    
+        $(document).ready(function() {
+            console.log(myBarcodeObject);
+            var count = myBarcodeObject.length;
+            console.log("COUNT "+count);
+            myBarcodeObject = [];
+            console.log("Remove  "+myBarcodeObject);
+        });
+    });
+}
+</script>

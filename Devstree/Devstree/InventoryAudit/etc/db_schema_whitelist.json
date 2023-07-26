@@ -1,0 +1,17 @@
+{
+    "inventory_audit_data": {
+        "column": {
+            "inventory_audit_id": true,
+            "brand": true,
+            "positive_difference_value": true,
+            "negative_difference_value": true,
+            "pdf": true,
+            "csv": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="inventory_audit_data">
+        <column xsi:type="int" name="inventory_audit_id" unsigned="true" nullable="false" identity="true"
+            comment="Audit Id" />
+        <column xsi:type="varchar" name="brand" nullable="false" length="255" comment="brand" />
+        <column xsi:type="varchar" name="positive_difference_value" nullable="false" length="255" comment="positive difference value" />
+        <column xsi:type="varchar" name="negative_difference_value" nullable="false" length="255" comment="negative difference value" />
+        <column xsi:type="varchar" name="pdf" nullable="false" length="255" comment="pdf" />
+        <column xsi:type="varchar" name="csv" nullable="false" length="255" comment="csv" />
+        <column name="created_at" nullable="false" xsi:type="timestamp" default="CURRENT_TIMESTAMP"
+            comment="Created At" on_update="false" />
+        <column name="updated_at" nullable="true" xsi:type="timestamp" default="CURRENT_TIMESTAMP"
+            comment="Updated At" on_update="true" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="inventory_audit_id" />
+        </constraint>
+    </table> 
+</schema> 
+

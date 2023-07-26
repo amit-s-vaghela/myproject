@@ -1,0 +1,235 @@
+<html lang="en">
+<head>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script> -->
+
+</head>
+<body>
+<input type="button" id="btn" value="Start/Stop the scanner" />
+Most Recently <h1 id="output"></h1>
+<div id="camera-container">
+  <div id="viewport"></div>
+  <div id="canvas"></div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    // ./mutagen.sh
+
+    require(['jquery', 'jquery/ui'], function($) {
+    $(document).ready(function() {
+        var _scannerIsRunning = false;
+
+        function startScanner() {
+            console.log("startScanner");
+            Quagga.init(
+                {
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    target: document.querySelector("#viewport")
+                },
+                decoder: {
+                    //readers: ["code_128_reader"]
+                    readers: [
+                                    "code_128_reader",
+                                    "ean_reader",
+                                    "ean_8_reader",
+                                    "code_39_reader",
+                                    "code_39_vin_reader",
+                                    "codabar_reader",
+                                    "upc_reader",
+                                    "upc_e_reader",
+                                    "i2of5_reader"
+                                ],
+                }
+                },
+                function (err) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                console.log("Initialization finished. Ready to start");
+                Quagga.start();
+                // Set flag to is running
+                _scannerIsRunning = true;
+                }
+            );
+
+            Quagga.onDetected(function (result) {
+                var code = result.codeResult.code;
+                document.getElementById("output").innerHTML = result.codeResult.code;
+                $("#output").val(code);
+                $('#greeting').html(code);
+
+                $("#popup-modal").modal("openModal");
+
+            });
+        }
+
+        // Start/stop scanner
+        document.getElementById("btn").addEventListener("click", function () {
+
+        if (_scannerIsRunning) {
+            _scannerIsRunning = false;
+            $("#camera-container").hide();
+            Quagga.stop();
+        } else {
+            $("#camera-container").show();
+            startScanner();
+        }
+        }, false);
+
+    });
+});
+</script>
+
+<div id="popup-modal" style="display:none;">
+    <h1 id="greeting"></h1>
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+            'mage/cookies'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Do you want to accept this ?',
+                buttons: [{
+                    text: $.mage.__('Finish'),
+                    class: 'btn_finish',
+                    click: function () {
+                       // this.closeModal();
+                        $(".btn_add").click();
+                        $("#btn").click();
+                        listBarcode();
+                    }
+                },
+                {
+                    text: $.mage.__('Yes'),
+                    class: 'btn_add',
+                    click: function () {
+                        //this.closeModal();    
+                    }
+                },
+                {
+                    text: $.mage.__('No'),
+                    class: 'btn_noadd',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+             var popup = modal(options, $('#popup-modal'));
+            // $("#click-me").on('click',function(){ 
+            //     $("#popup-modal").modal("openModal");
+            // });
+
+        }
+    );
+</script>
+
+<script type="text/javascript">
+    require([ 'jquery', 'jquery/ui'], function($){
+        $(document).on("click",".btn_add", function() {
+            var inputString = $("#output").val();
+            if(inputString == " "){
+                return;
+            }
+            alert("btn_add     "+inputString);
+            AddBarcode(inputString);
+            $('.action-close').trigger('click');
+            return;
+
+        });
+    });
+
+</script>
+
+<script type="text/javascript">
+var myBarcodeObject = [];
+</script>
+
+<script type="text/javascript">
+function AddBarcode(barcode_value) {
+    require(['jquery'], function ($) {    
+        $(document).ready(function() {
+            myBarcodeObject.push(barcode_value);
+            console.log("ADD ARRAY "+barcode_value);
+        });
+    });
+}
+</script>
+<script type="text/javascript">
+function listBarcode(barcode_value) {
+    require(['jquery'], function ($) {    
+        $(document).ready(function() {
+            console.log(myBarcodeObject);
+            var arr= ['18029','18137','18468','18475','18481','18481','18557','18029'];
+            var res= arr.join('; ');
+            $("#barcode_data").val(res);
+            var count = myBarcodeObject.length;
+            console.log("COUNT "+count);
+            myBarcodeObject = [];
+            console.log("Remove  "+myBarcodeObject);
+        });
+    });
+}
+</script>
+
+<div class="row clearfix">
+        <div class="col-md-12 column">
+            <form name="form_value" method="POST" id="form_value">
+                    <label>Barcode Data</label>
+                    <input type="text" name="barcode_data" id="barcode_data" class="form-control input-md" style="margin:20px;width:300px;" >
+                    <label>Select Brand</label>
+                    <select name="brand" id="brand" class="admin__control-select" style="margin:20px;width:300px;" >
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <input type="submit" id="calculateTotalSubmit"  name="calculate-total-submit" value="Result">
+                </div> 
+            </form>
+            <br/><br/>
+            Result<div class="result"></div>
+        </div>
+</div>
+
+<script>
+require(['jquery'],function(){
+    jQuery(document).ready(function() {
+        jQuery(".result").hide();
+        jQuery("#form_value").submit(function(){
+            
+            var barcode_data = jQuery("#barcode_data").val();
+            var brand = jQuery("#brand").val();
+
+            var url = "<?php echo $block->getUrl('inventoryaudit/grid/result') ?>";
+            jQuery.ajax({
+            url: url,
+            type: "POST",
+            data: {barcode_data:barcode_data,brand:brand},
+            showLoader: true,
+            cache: false,
+            success: function(response){
+                console.log(response.output);
+                jQuery(".result").show();
+                jQuery(".result").html(response.output);
+            }
+        });
+        return false;
+        });
+    });
+});
+</script>
