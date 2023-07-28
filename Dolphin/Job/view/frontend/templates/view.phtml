@@ -1,0 +1,27 @@
+<?php
+$productData = $block->getData();
+// $productId = $productData['data']['currentproductid'];
+$registerData = $block->getAllRegisterData();
+// foreach ($registerData as $key => $value) {
+// 	echo "<pre>";print_r($value->getData());
+// }exit();
+?>
+<div>
+  <table>
+  <tbody><tr>
+    <th style="width:20%">Name</th>
+    <th style="width:30%">Birthdate</th>
+    <th style="width:25%">Age</th>
+    <th style="width:25%">Mobile</th>
+  </tr>
+  <?php foreach ($registerData as $item): ?>
+  <tr>
+    <td><?php echo $item->getName(); ?></td>
+    <td><?php echo $date = (new \DateTime($item->getBirthdate()))->format('d-m-Y'); ?></td>
+    <td><?php echo $item->getAge(); ?></td>
+    <td><?php echo $item->getMobile(); ?></td>
+  </tr>
+<?php endforeach ?>
+</tbody>
+</table>
+</div>
