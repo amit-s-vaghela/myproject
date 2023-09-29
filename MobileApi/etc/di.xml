@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="SoftWebPos\MobileApi\Api\CmsBestSeller" type="SoftWebPos\MobileApi\Model\Api\CmsBestSeller"/>
+    <preference for="SoftWebPos\MobileApi\Api\CmsNewProduct" type="SoftWebPos\MobileApi\Model\Api\CmsNewProduct"/>
+ <!-- Add image url in order api  -->
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="image_url_add_order_extension_attribute" type="SoftWebPos\MobileApi\Plugin\OrderRepositoryPlugin" />
+    </type>
+    <preference for="Magedelight\Cgr\Observer\ValidateRestrictedProducts" type="SoftWebPos\MobileApi\Observer\ValidateRestrictedProducts" />
+
+</config>

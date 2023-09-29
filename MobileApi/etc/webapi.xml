@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <route method="GET" url="/V1/swp_mobile/cms-bestseller/">
+        <service class="SoftWebPos\MobileApi\Api\CmsBestSeller" method="getApiData" />
+        <resources>
+            <resource ref="self"/>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route method="GET" url="/V1/swp_mobile/cms-newproducts/">
+        <service class="SoftWebPos\MobileApi\Api\CmsNewProduct" method="getApiData" />
+        <resources>
+            <resource ref="self"/>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+</routes>
