@@ -3,9 +3,12 @@
     <preference for="SoftWebPos\MobileApi\Api\CmsBestSeller" type="SoftWebPos\MobileApi\Model\Api\CmsBestSeller"/>
     <preference for="SoftWebPos\MobileApi\Api\CmsNewProduct" type="SoftWebPos\MobileApi\Model\Api\CmsNewProduct"/>
  <!-- Add image url in order api  -->
-    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+    <!-- <type name="Magento\Sales\Api\OrderRepositoryInterface">
         <plugin name="image_url_add_order_extension_attribute" type="SoftWebPos\MobileApi\Plugin\OrderRepositoryPlugin" />
-    </type>
+    </type> -->
+    <type name="Magento\Sales\Api\OrderItemRepositoryInterface">
+		<plugin name="order_item_custom_attribute" type="SoftWebPos\MobileApi\Plugin\AddCustomProductAttribute" />
+     </type>
     <preference for="Magedelight\Cgr\Observer\ValidateRestrictedProducts" type="SoftWebPos\MobileApi\Observer\ValidateRestrictedProducts" />
 
 </config>

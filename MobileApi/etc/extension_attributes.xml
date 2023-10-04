@@ -3,7 +3,10 @@
     <extension_attributes for="Magento\Quote\Api\Data\CartItemInterface">
         <attribute code="image_url" type="string" />
     </extension_attributes>
-    <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
-        <attribute code="customer_feedback" type="string" />
+    <!-- <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
+        <attribute code="image_url" type="string" />
+    </extension_attributes> -->
+    <extension_attributes for="Magento\Sales\Api\Data\OrderItemInterface">
+        <attribute code="my_custom_product_attribute" type="string"/>
     </extension_attributes>
 </config>

@@ -14,9 +14,6 @@ use Magento\Store\Model\App\Emulation as AppEmulation;
 
 class OrderRepositoryPlugin
 {
-    
-    const FIELD_NAME = 'customer_feedback';
-
     protected $extensionFactory;
 
     protected $productRepository;
@@ -67,12 +64,13 @@ class OrderRepositoryPlugin
             foreach ($order->getAllItems() as $item) { 
                 $product = $this->productRepository->create()->getById($item->getProductId());
                 $imageurl = $this->getImageUrl($product, 'product_thumbnail_image');
+               // echo"<pre>";print_r($item->getExtensionAttributes());
             }         
-
+           // exit;
             $customerFeedback = $imageurl;
             $extensionAttributes = $order->getExtensionAttributes();
             $extensionAttributes = $extensionAttributes ? $extensionAttributes : $this->extensionFactory->create();
-            $extensionAttributes->setCustomerFeedback($customerFeedback);
+            $extensionAttributes->setImageUrl($customerFeedback);
             $order->setExtensionAttributes($extensionAttributes);
         }
 
