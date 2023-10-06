@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+   <table name="md_helloworld" resource="default" engine="innodb" comment="MD Helloworld">
+      <column xsi:type="smallint" name="id" padding="7" unsigned="false" nullable="false" identity="true" comment="ID" />
+      <column xsi:type="varchar" name="author_name" nullable="false" length="20" comment="Name" />
+      <column xsi:type="varchar" name="email" nullable="false" length="20" comment="Email" />
+      <!-- <column xsi:type="varchar" name="description" nullable="false" length="255" comment="Descrition" /> -->
+      <constraint xsi:type="primary" referenceId="PRIMARY">
+         <column name="id" />
+      </constraint>
+   </table>
+   <table name="test_table" resource="default" engine="innodb" comment="Catalog Product Datetime Attribute Backend Table">
+       <column xsi:type="int" name="value_id" unsigned="false" nullable="false" identity="true" comment="Value ID"/>
+       <column xsi:type="smallint" name="attribute_id" unsigned="true" nullable="false" identity="false" default="0" comment="Attribute ID"/>
+       <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false" default="0" comment="Store ID"/>
+       <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="false" default="0" comment="Entity ID"/>
+       <column xsi:type="datetime" name="value" on_update="false" nullable="true" comment="Value"/>
+       <constraint xsi:type="primary" referenceId="PRIMARY">
+           <column name="value_id"/>
+       </constraint>
+       <constraint xsi:type="foreign" referenceId="CAT_PRD_ENTT_DTIME_ATTR_ID_EAV_ATTR_ATTR_ID" table="test_table" column="attribute_id" referenceTable="eav_attribute" referenceColumn="attribute_id" onDelete="CASCADE"/>
+
+       <constraint xsi:type="foreign" referenceId="CMS_BLOCK_STORE_STORE_ID_STORE_STORE_ID" table="test_table" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+
+   </table>
+</schema>
+
+
+

@@ -1,0 +1,14 @@
+<?php ?>
+<h2><?php echo $block->getContentForDisplay(); //method call from block ?></h2>
+<div class="example-element"  data-mage-init='{"customjs": {}}'>A single div</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Webkul_Hello/js/init_custom": {
+                "param1": "Value1",
+                "param2": "Value2"
+            }
+        }
+    }
+</script>
